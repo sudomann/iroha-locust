@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
-  name: locust
+  name: locust-web-ui
 spec:
   backend:
     serviceName: locust-master
