@@ -1,31 +1,19 @@
 FROM ubuntu:bionic-20190204
 
-RUN apt-get update && apt-get install -y \
-                                      gcc=4:7.3.0-3ubuntu2.1 \
-                                      libprotobuf-dev=3.0.0-9.1ubuntu1 \
-                                      python3.6 \
-                                      protobuf-compiler=3.0.0-9.1ubuntu1 \
-                                      curl=7.58.0-2ubuntu3.6
+RUN apt-get update && apt-get install -y python3.6 curl=7.58.0-2ubuntu3.6
 
-RUN apt-get update && apt-get install -y python3-distutils && \
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3.6 get-pip.py
+RUN apt-get update && apt-get install -y python3-distutils
 
-COPY requirements.txt ./
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py
 
-RUN python3.6 -m pip install -r requirements.txt
+COPY requirements.txt /
 
-COPY iroha/ /iroha/
+RUN python3 -m pip install -r requirements.txt
 
-COPY iroha/example/python/irohalib.py iroha/example/python/ed25519.py /test/load/
+COPY docker-entrypoint.sh iroha/example/python/ed25519.py /locust/
 
-WORKDIR /iroha/example/python/
+WORKDIR /locust/
 
-RUN protoc --proto_path=../../shared_model/schema --python_out=. ../../shared_model/schema/*.proto
+EXPOSE 8089 5557 5558
 
-RUN python3.6 -m grpc_tools.protoc --proto_path=../../shared_model/schema --python_out=. --grpc_python_out=. ../../shared_model/schema/endpoint.proto
-
-EXPOSE 5557 5558
-
-ENTRYPOINT ["locust"]
-
-CMD ["-f my_locustfile.py", "--master"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
