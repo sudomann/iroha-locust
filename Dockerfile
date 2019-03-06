@@ -16,4 +16,6 @@ WORKDIR /locust/
 
 EXPOSE 8089 5557 5558
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash"]
+
+CMD ["./docker-entrypoint.sh"]

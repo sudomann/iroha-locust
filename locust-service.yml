@@ -5,6 +5,7 @@ metadata:
     role: locust-master
   name: locust-master
 spec:
+  type: NodePort
   ports:
   - port: 5557
     name: communication
