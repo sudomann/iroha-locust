@@ -1,5 +1,5 @@
 # iroha-locust
-Docker image for running Locust distributed
+Distributed Locust swarm against an Iroha network
 
 
 ## To build manually:
