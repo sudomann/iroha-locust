@@ -10,7 +10,7 @@ COPY requirements.txt /
 
 RUN python3 -m pip install -r requirements.txt
 
-COPY docker-entrypoint.sh iroha/example/python/ed25519.py /locust/
+COPY docker-entrypoint.sh /locust/
 
 WORKDIR /locust/
 
